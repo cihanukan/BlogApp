@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Blog>
 @{
     ViewData["Title"] = "Index";
 }
@@ -18,54 +18,23 @@
     <div class="row">
 
         <div class="col-md-8">
-            <div class="card ">
-                <div class="card-header">
-                    Featured
-                </div>
-                <img class="card-img-top" src="~/img/1.jpeg" alt="Card image cap">
 
-                <div class="card-block">
-                    <h4 class="card-title">Special title treatment</h4>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-header">
-                    Featured
-                </div>
-                <img class="card-img-top" src="~/img/2.jpeg" alt="Card image cap">
+            @foreach (var blog in Model)
+            {
+                <div class="card mt-2">
+                    <div class="card-header">
+                        @blog.Title
+                    </div>
+                    <img class="card-img-top" src="~/img/@blog.Image" alt="Card image cap">
 
-                <div class="card-block">
-                    <h4 class="card-title">Special title treatment</h4>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card-block">
+                        <h4 class="card-title">@blog.Title</h4>
+                        <p class="card-text">@blog.Description</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-header">
-                    Featured
-                </div>
-                <img class="card-img-top" src="~/img/3.jpeg" alt="Card image cap">
+            }
 
-                <div class="card-block">
-                    <h4 class="card-title">Special title treatment</h4>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-header">
-                    Featured
-                </div>
-                <img class="card-img-top" src="~/img/4.jpeg" alt="Card image cap">
-
-                <div class="card-block">
-                    <h4 class="card-title">Special title treatment</h4>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
         </div>
         <div class="col-md-4">
             <div class="list-group">
