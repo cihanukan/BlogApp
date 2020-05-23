@@ -15,9 +15,17 @@ namespace BlogApp.WebUI.Controllers
         {
             _blogRepository = blogRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
-            return View(_blogRepository.GetAll().Where(p=>p.isApproved && p.isHome));
+            var query = _blogRepository.GetAll()
+                .Where(u => u.isApproved && u.isHome);
+
+            if (id != null)
+            {
+                query = query.Where(p => p.CategoryId == id);
+            }
+
+            return View(query.OrderByDescending(p=>p.Date));
         }
         public IActionResult List()
         {

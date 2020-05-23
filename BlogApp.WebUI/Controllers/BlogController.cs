@@ -7,6 +7,7 @@ using BlogApp.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.WebUI.Controllers
 {
@@ -21,10 +22,29 @@ namespace BlogApp.WebUI.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? id, string q)
         {
-            return View(_blogRepository.GetAll().
-                Where(p=>p.isApproved).OrderByDescending(p=>p.Date));
+            var query = _blogRepository.GetAll().Where(p => p.isApproved);
+
+            if (id != null)
+            {
+                // id bos degilse kategorisel süzme var demektir.
+                query = query.Where(p => p.CategoryId == id);
+            }
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                //İlk Arama Şekli
+                //query = query.Where(p => p.Title.Contains(q) || p.Description.Contains(q) || p.Body.Contains(q));
+
+                //EF CORE ILE GELEN OZELLIK - DAHA OZEL ARAMALAR YAPABILIRIZ
+                query = query.Where(p => EF.Functions.Like(p.Title, "%" + q + "%") ||
+                EF.Functions.Like(p.Description, "%"+q+"%") || 
+                EF.Functions.Like(p.Body, "%"+q+"%"));
+            }
+
+            return View(query.OrderByDescending(p => p.Date));
+
         }
         public IActionResult List()
         {

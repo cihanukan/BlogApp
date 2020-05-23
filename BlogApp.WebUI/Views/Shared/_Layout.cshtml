@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>_Layout</title>
+    <title>Blog Page</title>
     <link href="~/css/bundle.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900" rel="stylesheet">
 </head>
@@ -23,7 +23,7 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="/">Navbar</a>
+        <a class="navbar-brand" href="/">REFORM BLOGS</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -33,12 +33,8 @@
                 <li class="nav-item @(page.ToString() == "Blog" ? "active" : "")">
                     <a class="nav-link" href="/Blog">Blog</a>
                 </li>
-
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <partial name="_SearchBox"/>
         </div>
     </div>
 </nav>
@@ -134,12 +130,5 @@
 <script src="~/js/bundle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="~/js/delete.js" asp-append-version="true"></script>
-<script>
-    $("#tempDataAlert").fadeTo(2000, 500).slideUp(500,
-        function() {
-            $("#tempDataAlert").slideUp(500);
-        });
-</script>
 </body>
 </html>
