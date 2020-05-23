@@ -1,0 +1,18 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container mt-3">
+    <h2>@ViewBag.PageTitle</h2>
+    <hr />
+    <form asp-action="AddOrUpdate" asp-controller="Category" method="post">
+        <input type="hidden" asp-for="CategoryId"/>
+        <div class="form-group">
+            <label asp-for="Name">Category Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter category name">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
