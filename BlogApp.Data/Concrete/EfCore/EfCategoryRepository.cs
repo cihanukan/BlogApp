@@ -26,18 +26,6 @@ namespace BlogApp.Data.Concrete.EfCore
             return _context.Categories;
         }
 
-        public void AddCategory(Category category)
-        {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-        }
-
-        public void UpdateCategory(Category category)
-        {
-            _context.Entry(entity:category).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
         public void DeleteCategory(int categoryId)
         {
             var category = _context.Categories.FirstOrDefault(p => p.CategoryId == categoryId);
@@ -46,6 +34,24 @@ namespace BlogApp.Data.Concrete.EfCore
                 _context.Categories.Remove(category);
                 _context.SaveChanges();
             }
+        }
+
+        public void SaveCategory(Category entity)
+        {
+            if (entity.CategoryId == 0)
+            {
+                _context.Categories.Add(entity);
+            }
+            else
+            {
+                var category = GetById(entity.CategoryId);
+                if (category != null)
+                {
+                    category.Name = entity.Name;
+                }
+            }
+
+            _context.SaveChanges();
         }
     }
 }

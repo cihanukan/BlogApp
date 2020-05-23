@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "List";
+}
+
+<div class="container mt-3">
+    <h2>List</h2>
+    <hr />
+    <div class="row">
+        <div class="col">
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">@item.CategoryId</td>
+                            <td class="align-middle">@item.Name</td>
+                            <td class="align-middle">
+                                <a class="btn btn-primary btn-sm" asp-action="AddOrUpdate" asp-controller="Category" asp-route-id="@item.CategoryId">Details</a>
+                                <a class="btn btn-danger btn-sm text-white delete" 
+                                   data-id="@item.CategoryId" 
+                                   data-controller="Category" 
+                                   data-action="Delete"
+                                    data-body-message="Are you sure to delete this category?">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+            }
+            else
+            {
+                <div class="alert alert-danger">Kategori belirtilmemiş</div>
+            }
+        </div>
+    </div>
+</div>
+

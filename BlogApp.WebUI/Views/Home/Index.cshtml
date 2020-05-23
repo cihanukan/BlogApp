@@ -30,22 +30,14 @@
                     <div class="card-block">
                         <h4 class="card-title">@blog.Title</h4>
                         <p class="card-text">@blog.Description</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <a asp-action="Details" asp-route-id="@blog.BlogId" class="btn btn-primary">Daha Fazla</a>
                     </div>
                 </div>
             }
 
         </div>
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    Cras justo odio
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-            </div>
+        <div class="col-md-4 mt-2">
+            @await  Component.InvokeAsync("CategoryMenu")
         </div>
     </div>
 </div>

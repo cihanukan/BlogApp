@@ -10,9 +10,7 @@ namespace BlogApp.Data.Abstract
     {
         Blog GetById(int blogId);
         IQueryable<Blog> GetAll();
-        void AddBlog(Blog blog);
-        void UpdateBlog(Blog blog);
-
+        void SaveBlog(Blog entity);
         void DeleteBlog(int blogId);
     }
 }

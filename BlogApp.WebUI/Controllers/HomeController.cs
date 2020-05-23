@@ -17,15 +17,20 @@ namespace BlogApp.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            return View(_blogRepository.GetAll());
+            return View(_blogRepository.GetAll().Where(p=>p.isApproved));
         }
         public IActionResult List()
         {
             return View();
         }
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View();
+            var blog = _blogRepository.GetById(id);
+            if(blog == null || blog.isApproved==false)
+                return View("Error");
+
+            return View(_blogRepository.GetById(id));
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BlogApp.Entity
 {
@@ -11,6 +12,8 @@ namespace BlogApp.Entity
         public string Description { get; set; }
         public string Body { get; set; }
         public string Image { get; set; }
+
+        [BindNever]
         public DateTime Date { get; set; }
         public bool isApproved { get; set; }
         public int CategoryId { get; set; }

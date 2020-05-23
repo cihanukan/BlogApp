@@ -26,15 +26,27 @@ namespace BlogApp.Data.Concrete.EfCore
             return _blogContext.Blogs;
         }
 
-        public void AddBlog(Blog blog)
+        public void SaveBlog(Blog entity)
         {
-            _blogContext.Blogs.Add(blog);
-            _blogContext.SaveChanges();
-        }
-
-        public void UpdateBlog(Blog blog)
-        {
-            _blogContext.Entry(entity: blog).State = EntityState.Modified;
+            //fist time create
+            if (entity.BlogId == 0)
+            {
+                entity.Date = DateTime.Now;
+                _blogContext.Blogs.Add(entity);
+            }
+            else
+            {
+                var blog = GetById(entity.BlogId);
+                if (blog != null)
+                {
+                    blog.Title = entity.Title;
+                    blog.Body = entity.Body;
+                    blog.Image = entity.Image;
+                    blog.Description = entity.Description;
+                    blog.isApproved = entity.isApproved;
+                    blog.CategoryId = entity.CategoryId;
+                }
+            }
             _blogContext.SaveChanges();
         }
 
