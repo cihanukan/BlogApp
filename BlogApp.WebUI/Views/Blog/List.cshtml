@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Blog>
 @{
     ViewData["Title"] = "List";
+    Layout = "_AdminLayout";
 }
 
 
@@ -19,6 +20,7 @@
                             <th>Başlık</th>
                             <th>Kayıt Tarihi</th>
                             <th>Yayın Durumu</th>
+                            <th>Anasayfa İçeriği</th>
                             <th></th>
                         </tr>  
                     </thead>
@@ -34,6 +36,16 @@
                             <td class="align-middle">@item.Date</td>
                             <td class="align-middle">
                                 @if (item.isApproved)
+                                {
+                                    <i class="fa fa-check"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-times"></i>
+                                }
+                            </td>
+                            <td class="align-middle">
+                                @if (item.isHome)
                                 {
                                     <i class="fa fa-check"></i>
                                 }
