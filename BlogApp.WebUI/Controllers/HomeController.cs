@@ -17,7 +17,7 @@ namespace BlogApp.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            return View(_blogRepository.GetAll().Where(p=>p.isApproved));
+            return View(_blogRepository.GetAll().Where(p=>p.isApproved && p.isHome));
         }
         public IActionResult List()
         {
@@ -26,7 +26,7 @@ namespace BlogApp.WebUI.Controllers
         public IActionResult Details(int id)
         {
             var blog = _blogRepository.GetById(id);
-            if(blog == null || blog.isApproved==false)
+            if(blog == null || blog.isApproved==false || blog.isHome==false)
                 return View("Error");
 
             return View(_blogRepository.GetById(id));

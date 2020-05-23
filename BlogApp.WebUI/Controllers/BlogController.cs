@@ -23,11 +23,22 @@ namespace BlogApp.WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_blogRepository.GetAll().
+                Where(p=>p.isApproved).OrderByDescending(p=>p.Date));
         }
         public IActionResult List()
         {
             return View(_blogRepository.GetAll());
+        }
+
+        public IActionResult Details(int id)
+        {
+            var blog = _blogRepository.GetById(id);
+            if (blog == null || blog.isApproved==false)
+                return View("Error");
+
+            return View(_blogRepository.GetById(id));
+
         }
 
         public IActionResult Delete(int id)
