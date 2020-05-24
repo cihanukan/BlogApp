@@ -45,6 +45,7 @@ namespace BlogApp.Data.Concrete.EfCore
                     blog.Description = entity.Description;
                     blog.isApproved = entity.isApproved;
                     blog.isHome = entity.isHome;
+                    blog.isSlider = entity.isSlider;
                     blog.CategoryId = entity.CategoryId;
                 }
             }
