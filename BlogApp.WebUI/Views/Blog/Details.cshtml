@@ -15,7 +15,7 @@
 
                 <div class="card-block">
                     <h4 class="card-title">@Model.Description</h4>
-                    <p class="card-text">@Model.Body</p>
+                    <p class="card-text">@Html.Raw(Model.Body)</p>
                     <a asp-action="Index" class="btn btn-primary">Geri Git</a>
                 </div>
             </div>

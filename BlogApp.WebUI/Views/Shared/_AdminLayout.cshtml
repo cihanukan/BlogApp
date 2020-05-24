@@ -139,10 +139,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="~/js/delete.js" asp-append-version="true"></script>
     <script>
-    $("#tempDataAlert").fadeTo(2000, 500).slideUp(500,
-        function() {
-            $("#tempDataAlert").slideUp(500);
-        });
+        $("#tempDataAlert").fadeTo(2000, 500).slideUp(500,
+            function () {
+                $("#tempDataAlert").slideUp(500);
+            });
     </script>
+@RenderSection("scripts", false);
 </body>
 </html>

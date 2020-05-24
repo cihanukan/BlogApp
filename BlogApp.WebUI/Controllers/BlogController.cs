@@ -105,12 +105,17 @@ namespace BlogApp.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                if (file != null)
                 {
-                    await file.CopyToAsync(stream);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    entity.Image = file.FileName;
                 }
-                entity.Image = file.FileName;
+
                 _blogRepository.SaveBlog(entity);
                 TempData["message"] = "Kayıt başarıyla güncellendi";
                 return RedirectToAction("List");
