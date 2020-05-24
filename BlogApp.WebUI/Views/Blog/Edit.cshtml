@@ -1,0 +1,79 @@
+﻿@model Blog
+@{
+    ViewData["Title"] = "Edit Blog";
+    Layout = "_AdminLayout";
+}
+
+@section scripts{
+
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("Body")
+    </script>
+}
+
+<div class="container mt-3">
+
+    <h2>Edit Blog</h2>
+    <hr />
+    <form asp-action="Edit" asp-controller="Blog" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="BlogId" />
+        <input type="hidden" asp-for="Image" />
+        <div class="form-group">
+            <label asp-for="Title">Blog Title</label>
+            <input asp-for="Title" class="form-control" placeholder="Enter blog title">
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" placeholder="Enter blog description">
+        </div>
+        <div class="form-group">
+            <label asp-for="Body">Blog Body</label>
+            <textarea asp-for="Body" class="form-control" placeholder="Enter blog body"></textarea>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2 col-sm-6">
+                <img src="~/img/@Model.Image" width="170" height="80" />
+            </div>
+            <div class="form-group col-md-10 col-sm-6">
+                <label asp-for="Image">Select Image</label>
+                <input type="file" name="file" id="file" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label asp-for="CategoryId">Category</label>
+                <select class="form-control" asp-for="CategoryId" asp-items="ViewBag.Categories">
+                    <option selected disabled value="">Select Category</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="isApproved">Yayınlama Durumu</label>
+                <select class="form-control" asp-for="isApproved">
+                    <option selected disabled value="">Yayın Durumu</option>
+                    <option value="true">Yayında</option>
+                    <option value="false">Yayında Değil</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="isHome">Anasayfa İçeriği</label>
+                <select class="form-control" asp-for="isHome">
+                    <option selected disabled value="">Anasayfa Gösterim Durumu</option>
+                    <option value="true">Gösterimde</option>
+                    <option value="false">Gösterimde Değil</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="isSlider">Slider İçeriği</label>
+                <select class="form-control" asp-for="isSlider">
+                    <option selected disabled value="">Slider Gösterim Durumu</option>
+                    <option value="true">Gösterimde</option>
+                    <option value="false">Gösterimde Değil</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>

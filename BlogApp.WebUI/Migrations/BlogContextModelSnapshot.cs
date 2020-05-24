@@ -41,6 +41,8 @@ namespace BlogApp.WebUI.Migrations
 
                     b.Property<bool>("isHome");
 
+                    b.Property<bool>("isSlider");
+
                     b.HasKey("BlogId");
 
                     b.HasIndex("CategoryId");
