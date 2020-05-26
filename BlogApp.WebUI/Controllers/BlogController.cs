@@ -63,12 +63,24 @@ namespace BlogApp.WebUI.Controllers
 
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var blogTitle = _blogRepository.GetById(id).Title;
             _blogRepository.DeleteBlog(id);
-            TempData["message"] = $"{blogTitle} successfully deleted.";
+            try
+            {
+                if (await _blogRepository.SaveChangesAsync())
+                {
+                    TempData["message"] = $"{blogTitle} başarıyla silindi.";
+                }
+            }
+            catch (Exception error)
+            {
+                TempData["message"] = $"{blogTitle} adlı blog silinemedi. Hata mesajı : {error.Message}";
+
+            }
             return RedirectToAction("List");
+
         }
 
         [HttpGet]
@@ -79,16 +91,27 @@ namespace BlogApp.WebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Blog entity)
+        public async Task<IActionResult> Create(Blog entity)
         {
 
             if (ModelState.IsValid)
             {
-                _blogRepository.SaveBlog(entity);
-                TempData["message"] = "Kayıt başarıyla güncellendi";
-                return RedirectToAction("List");
-
+                try
+                {
+                    _blogRepository.SaveBlog(entity);
+                    if (await _blogRepository.SaveChangesAsync())
+                    {
+                        TempData["message"] = "Kayıt başarıyla güncellendi";
+                        return RedirectToAction("List");
+                    }
+                }
+                catch (Exception error)
+                {
+                    TempData["message"] = $"Blog kaydedilirken hata oluştu. Hata mesajı : {error.Message}";
+                    return View(entity);
+                }
             }
+
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
             return View(entity);
         }
@@ -117,9 +140,19 @@ namespace BlogApp.WebUI.Controllers
                 }
 
                 _blogRepository.SaveBlog(entity);
-                TempData["message"] = "Kayıt başarıyla güncellendi";
-                return RedirectToAction("List");
-
+                try
+                {
+                    if (await _blogRepository.SaveChangesAsync())
+                    {
+                        TempData["message"] = "Kayıt başarıyla güncellendi";
+                        return RedirectToAction("List");
+                    }
+                }
+                catch (Exception error)
+                {
+                    TempData["message"] = $"Blog kaydedilirken hata oluştu. Hata mesajı : {error.Message}";
+                    return View(entity);
+                }
             }
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
             return View(entity);
