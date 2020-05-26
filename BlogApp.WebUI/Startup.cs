@@ -36,7 +36,13 @@ namespace BlogApp.WebUI
             services.AddDbContext<BlogContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b=>b.MigrationsAssembly("BlogApp.WebUI")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                })
                 .AddEntityFrameworkStores<BlogContext>()
                 .AddDefaultTokenProviders();
 
@@ -56,12 +62,12 @@ namespace BlogApp.WebUI
             app.UseCors();
             app.UseAuthentication();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
-                RequestPath = "/modules"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //        Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
+            //    RequestPath = "/modules"
+            //});
 
             
             app.UseMvc(routes =>

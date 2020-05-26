@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Data.Concrete.EfCore
 {
-    public class BlogContext : IdentityDbContext<ApplicationUser>
+    public class BlogContext : IdentityDbContext
     {
         public BlogContext(DbContextOptions<BlogContext> options) : base(options)
         {
