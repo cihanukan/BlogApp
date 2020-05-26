@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,6 @@ namespace BlogApp.Data.Concrete.EfCore
                     blog.CategoryId = entity.CategoryId;
                 }
             }
-            _blogContext.SaveChanges();
         }
 
         public void DeleteBlog(int blogId)
@@ -59,8 +59,12 @@ namespace BlogApp.Data.Concrete.EfCore
             if (blog != null)
             {
                 _blogContext.Blogs.Remove(blog);
-                _blogContext.SaveChanges();
             }
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _blogContext.SaveChangesAsync() > 0 ? true : false;
         }
     }
 }

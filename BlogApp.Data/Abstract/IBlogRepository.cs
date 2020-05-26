@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using BlogApp.Entity;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BlogApp.Data.Abstract
 {
@@ -12,5 +14,6 @@ namespace BlogApp.Data.Abstract
         IQueryable<Blog> GetAll();
         void SaveBlog(Blog entity);
         void DeleteBlog(int blogId);
+        Task<bool> SaveChangesAsync();
     }
 }
