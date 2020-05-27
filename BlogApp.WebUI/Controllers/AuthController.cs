@@ -33,7 +33,7 @@ namespace BlogApp.WebUI.Controllers
                 return View();
             }
             //TODO sonradan blog icin idex saydası hazırlanabilir. Yanda bir sidebar olacak şekilde
-            return RedirectToAction("List", "Blog");
+            return RedirectToAction("List", "Panel");
         }
 
         [HttpGet]
