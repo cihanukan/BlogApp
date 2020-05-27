@@ -31,6 +31,8 @@ namespace BlogApp.WebUI
         {
             services.AddTransient<IBlogRepository, EfBlogRepository>();
             services.AddTransient<ICategoryRepository, EfCategoryRepository>();
+            services.AddTransient<IPanelRepository, EfPanelRepository>();
+
             //b.MigrationAssembly --> Migration'ın kurulacagı web projesi
             services.AddDbContext<BlogContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b=>b.MigrationsAssembly("BlogApp.WebUI")));
