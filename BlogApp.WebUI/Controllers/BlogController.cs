@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlogApp.Data.Abstract;
 using BlogApp.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -48,6 +49,7 @@ namespace BlogApp.WebUI.Controllers
             return View(query.OrderByDescending(p => p.Date));
 
         }
+        [Authorize]
         public IActionResult List()
         {
             return View(_blogRepository.GetAll());
@@ -62,7 +64,7 @@ namespace BlogApp.WebUI.Controllers
             return View(_blogRepository.GetById(id));
 
         }
-
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var blogTitle = _blogRepository.GetById(id).Title;
@@ -83,14 +85,14 @@ namespace BlogApp.WebUI.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult Create()
         {
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<IActionResult> Create(Blog entity)
         {
 
@@ -116,14 +118,14 @@ namespace BlogApp.WebUI.Controllers
             return View(entity);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult Edit(int id)
         {
             ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
             return View(_blogRepository.GetById(id));
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public async Task<IActionResult> Edit(Blog entity, IFormFile file)
         {
             if (ModelState.IsValid)
