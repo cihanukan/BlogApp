@@ -18,12 +18,45 @@ namespace BlogApp.WebUI
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
+            try
+            {
+                var scope = host.Services.CreateScope();
 
-            var scope = host.Services.CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<BlogContext>();
+                var userMngr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var roleMngr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            var context = scope.ServiceProvider.GetRequiredService<BlogContext>();
-            var userMngr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            var roleMngr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                context.Database.EnsureCreated();
+
+                var adminRole = new IdentityRole("Admin");
+                if (!context.Roles.Any())
+                {
+                    //islem asenkron ancak main method asenkron olmadigi icin GetAwaiter, GetResult kullandık
+                    roleMngr.CreateAsync(adminRole).GetAwaiter().GetResult();
+                    //creating seed data for roles
+                }
+
+                if (!context.Users.Any(p => p.UserName == "admin"))
+                {
+                    //creating seed data for admin
+                    var adminUser = new IdentityUser
+                    {
+                        UserName = "admin",
+                        Email = "admin@gmail.com"
+                    };
+
+                    var result = userMngr.CreateAsync(adminUser, "password").GetAwaiter().GetResult();
+
+                    //Admin'e rol tanımlama
+                    userMngr.AddToRoleAsync(adminUser, adminRole.Name).GetAwaiter().GetResult();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             host.Run();
         }
