@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using BlogApp.Data.Abstract;
-using BlogApp.Entity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.WebUI.Controllers
@@ -17,12 +8,10 @@ namespace BlogApp.WebUI.Controllers
     public class BlogController : Controller
     {
         private IBlogRepository _blogRepository;
-        private ICategoryRepository _categoryRepository;
 
-        public BlogController(IBlogRepository blogRepository, ICategoryRepository categoryRepository)
+        public BlogController(IBlogRepository blogRepository)
         {
-            _blogRepository= blogRepository;
-            _categoryRepository = categoryRepository;
+            _blogRepository = blogRepository;
         }
 
         public IActionResult Index(int? id, string q)
@@ -49,11 +38,6 @@ namespace BlogApp.WebUI.Controllers
             return View(query.OrderByDescending(p => p.Date));
 
         }
-        [Authorize]
-        public IActionResult List()
-        {
-            return View(_blogRepository.GetAll());
-        }
 
         public IActionResult Details(int id)
         {
@@ -63,101 +47,6 @@ namespace BlogApp.WebUI.Controllers
 
             return View(_blogRepository.GetById(id));
 
-        }
-        [Authorize]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var blogTitle = _blogRepository.GetById(id).Title;
-            _blogRepository.DeleteBlog(id);
-            try
-            {
-                if (await _blogRepository.SaveChangesAsync())
-                {
-                    TempData["message"] = $"{blogTitle} başarıyla silindi.";
-                }
-            }
-            catch (Exception error)
-            {
-                TempData["message"] = $"{blogTitle} adlı blog silinemedi. Hata mesajı : {error.Message}";
-
-            }
-            return RedirectToAction("List");
-
-        }
-
-        [HttpGet, Authorize]
-        public IActionResult Create()
-        {
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
-            return View();
-        }
-
-        [HttpPost, Authorize]
-        public async Task<IActionResult> Create(Blog entity)
-        {
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _blogRepository.SaveBlog(entity);
-                    if (await _blogRepository.SaveChangesAsync())
-                    {
-                        TempData["message"] = "Kayıt başarıyla güncellendi";
-                        return RedirectToAction("List");
-                    }
-                }
-                catch (Exception error)
-                {
-                    TempData["message"] = $"Blog kaydedilirken hata oluştu. Hata mesajı : {error.Message}";
-                    return View(entity);
-                }
-            }
-
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
-            return View(entity);
-        }
-
-        [HttpGet, Authorize]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
-            return View(_blogRepository.GetById(id));
-        }
-
-        [HttpPost, Authorize]
-        public async Task<IActionResult> Edit(Blog entity, IFormFile file)
-        {
-            if (ModelState.IsValid)
-            {
-                if (file != null)
-                {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
-
-                    entity.Image = file.FileName;
-                }
-
-                _blogRepository.SaveBlog(entity);
-                try
-                {
-                    if (await _blogRepository.SaveChangesAsync())
-                    {
-                        TempData["message"] = "Kayıt başarıyla güncellendi";
-                        return RedirectToAction("List");
-                    }
-                }
-                catch (Exception error)
-                {
-                    TempData["message"] = $"Blog kaydedilirken hata oluştu. Hata mesajı : {error.Message}";
-                    return View(entity);
-                }
-            }
-            ViewBag.Categories = new SelectList(_categoryRepository.GetAll(), "CategoryId", "Name");
-            return View(entity);
         }
     }
 }

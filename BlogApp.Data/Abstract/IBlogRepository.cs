@@ -13,9 +13,6 @@ namespace BlogApp.Data.Abstract
  
         Blog GetById(int blogId);
         IQueryable<Blog> GetAll();
-        void SaveBlog(Blog entity);
-        void DeleteBlog(int blogId);
-        Task<bool> SaveChangesAsync();
 
     }
 }
